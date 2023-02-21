@@ -61,7 +61,7 @@ chrome.commands.onCommand.addListener((command) => {
     } else if (isPrev !== undefined) {
       // Verify user is paid
       userPromise.then((user) => {
-        if (user.paid || computeTrialState(user.trialStartedAt).status === 'active') {
+        if (true) {
           const configsArray = Object.keys(configs);
           const currentConfigIndex = configsArray.indexOf(activeConfig);
           const nextConfigName =
@@ -95,7 +95,7 @@ chrome.runtime.onMessage.addListener((msg: Message, sender, sendResponse) => {
     // Send any currently-active config
     Promise.all([getAllStoredSync(), extpay.getUser()]).then(([stored, user]) => {
       const { isEnabled, activeConfig, configs, seenOnboarding, prefs } = stored;
-      const isAllowed = user.paid || computeTrialState(user.trialStartedAt).status === 'active';
+      const isAllowed = true;
       const disabled = !isEnabled || !isAllowed;
       const configName = disabled ? null : activeConfig;
       const config = disabled ? null : configs[activeConfig];
@@ -114,7 +114,7 @@ chrome.runtime.onMessage.addListener((msg: Message, sender, sendResponse) => {
     storeSeenOnboarding();
     extpay.getUser().then((user) => {
       // Automatically open trial popup if user hasn't paid and isn't already in a trial
-      const trialState = computeTrialState(user.trialStartedAt);
+      const trialState = computeTrialState();
       if (!user.paid && trialState.status === 'inactive') {
         extpay.openTrialPage(`${trialDays} day`);
       }

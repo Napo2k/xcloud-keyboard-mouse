@@ -44,12 +44,12 @@ export const getPaymentStatus = (state: RootState) => {
   return state.pending.payment;
 };
 
-export const getTrialState = (state: RootState): TrialState => {
-  return computeTrialState(getPayment(state).trialStartedAt);
+export const getTrialState = (): TrialState => {
+  return computeTrialState();
 };
 
 export const getIsAllowed = (state: RootState): boolean => {
-  const trialState = getTrialState(state);
+  const trialState = getTrialState();
   const payment = getPayment(state);
   return payment.paid || trialState.status === 'active';
 };
